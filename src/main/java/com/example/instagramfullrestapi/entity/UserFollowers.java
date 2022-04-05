@@ -25,7 +25,7 @@ public class UserFollowers {
     private User user;
 
     @ManyToOne
-    private User followerId;
+    private User follower;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp

@@ -1,6 +1,7 @@
 package com.example.instagramfullrestapi.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,9 +13,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @Entity(name = "users")
 
 public class User {
