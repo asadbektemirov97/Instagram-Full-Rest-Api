@@ -30,7 +30,7 @@ public class AttachmentController {
     @Autowired
     AttachmentContentRepository attachmentContentRepository;
 
-    private  static final  String uploadDirectory="yuklanganlar";
+    private static final String uploadDirectory = "yuklanganlar";
 
     @PostMapping("/uploadDb")
     public String uploadFile(MultipartHttpServletRequest request) throws IOException {
@@ -60,35 +60,35 @@ public class AttachmentController {
     public String uploadFileToFileSystem(MultipartHttpServletRequest request) throws IOException {
         Iterator<String> fileNames = request.getFileNames();
         MultipartFile file = request.getFile(fileNames.next());
-        if (file!=null){
+        if (file != null) {
             String originalFilename = file.getOriginalFilename();
             Attachment attachment = new Attachment();
             attachment.setFileOriginalName(originalFilename);
             attachment.setSize(file.getSize());
             attachment.setContentType(file.getContentType());
             String[] split = originalFilename.split("\\.");
-            String name = UUID.randomUUID().toString()+"."+split[split.length-1];
+            String name = UUID.randomUUID().toString() + "." + split[split.length - 1];
             attachment.setName(name);
             attachmentRepository.save(attachment);
-            Path path = Paths.get(uploadDirectory+"/"+name );
-            Files.copy(file.getInputStream(),path);
-            return "Fayl saqlandi. ID si: "+attachment.getId();
+            Path path = Paths.get(uploadDirectory + "/" + name);
+            Files.copy(file.getInputStream(), path);
+            return "Fayl saqlandi. ID si: " + attachment.getId();
         }
-return "Saqlanmadi";
+        return "Saqlanmadi";
     }
 
     @GetMapping("/getFile/{id}")
     public void getFile(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
-        if (optionalAttachment.isPresent()){
+        if (optionalAttachment.isPresent()) {
             Attachment attachment = optionalAttachment.get();
             Optional<AttachmentContent> contentOptional = attachmentContentRepository.findByAttachmentId(id);
-            if (contentOptional.isPresent()){
+            if (contentOptional.isPresent()) {
                 AttachmentContent attachmentContent = contentOptional.get();
-                response.setHeader("Content-Disposition","attachment; filename=\""+attachment.getFileOriginalName()+"\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + attachment.getFileOriginalName() + "\"");
                 response.setContentType(attachment.getContentType());
 
-                FileCopyUtils.copy(attachmentContent.getBytes(),response.getOutputStream());
+                FileCopyUtils.copy(attachmentContent.getBytes(), response.getOutputStream());
             }
 
         }
@@ -96,14 +96,14 @@ return "Saqlanmadi";
     }
 
     @GetMapping("/getFileFromsytem/{id}")
-    public void getFileFromSytem(@PathVariable Integer id,HttpServletResponse response) throws IOException {
+    public void getFileFromSytem(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
-        if (optionalAttachment.isPresent()){
+        if (optionalAttachment.isPresent()) {
             Attachment attachment = optionalAttachment.get();
-            response.setHeader("Content-Disposition","attachment; filename=\""+attachment.getFileOriginalName()+"\"");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + attachment.getFileOriginalName() + "\"");
             response.setContentType(attachment.getContentType());
-            FileInputStream fileInputStream=new FileInputStream(uploadDirectory+"/"+attachment.getName());
-                    FileCopyUtils.copy(fileInputStream,response.getOutputStream());
+            FileInputStream fileInputStream = new FileInputStream(uploadDirectory + "/" + attachment.getName());
+            FileCopyUtils.copy(fileInputStream, response.getOutputStream());
 
         }
     }

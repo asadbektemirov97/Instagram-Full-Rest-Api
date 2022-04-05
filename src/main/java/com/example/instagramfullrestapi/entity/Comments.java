@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -14,20 +15,24 @@ import java.util.UUID;
 @Data
 @Entity
 
-public class Story {
+public class Comments {
 
     @Id
     @GeneratedValue
-    private UUID id = UUID.randomUUID();
+    private UUID id=UUID.randomUUID();
+
+    @ManyToOne
+    private Posts posts;
 
     @ManyToOne
     private User user;
 
-    @OneToOne
-    private Attachment attachment;
+    private String text;
 
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    private Timestamp createdAt;
+    private Timestamp createdAt;//qachon ro'yhatdan o'tganligi
 
-    private long second = 86400 * 1000;
+    @UpdateTimestamp
+    private Timestamp updateAt;//oxirgi marta qachon tahrirlanganligi
 }

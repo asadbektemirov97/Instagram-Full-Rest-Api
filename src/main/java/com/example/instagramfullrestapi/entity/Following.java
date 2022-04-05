@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -15,14 +16,17 @@ import java.util.UUID;
 @Data
 @Entity
 
-public class UserFeeds {
+public class Following {
 
     @Id
     @GeneratedValue
-    private UUID id=UUID.randomUUID();
+    private UUID id = UUID.randomUUID();
 
-    @OneToOne
-    private User user;
+    @ManyToOne
+    private User kimdan;
+
+    @ManyToMany
+    private List<User> kimga;
 
     @OneToOne
     private Posts posts;

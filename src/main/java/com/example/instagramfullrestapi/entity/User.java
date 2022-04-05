@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
@@ -43,7 +44,6 @@ public class User {
 
     private Date birthday;
 
-
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Timestamp createdAt;//qachon ro'yhatdan o'tganligi
@@ -58,5 +58,16 @@ public class User {
         this.password = password;
         this.userImage = userImage;
         this.birthday = birthday;
+    }
+
+    @ManyToMany(mappedBy = "kimga")
+    private Collection<Following> followings;
+
+    public Collection<Following> getFollowings() {
+        return followings;
+    }
+
+    public void setFollowings(Collection<Following> followings) {
+        this.followings = followings;
     }
 }

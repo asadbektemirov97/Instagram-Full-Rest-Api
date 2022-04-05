@@ -34,7 +34,4 @@ public class Posts {
 
     @UpdateTimestamp
     private Timestamp updateAt;//oxirgi marta qachon tahrirlanganligi
-
-    private Integer totalLikes;
-    private Integer totalComments;
 }

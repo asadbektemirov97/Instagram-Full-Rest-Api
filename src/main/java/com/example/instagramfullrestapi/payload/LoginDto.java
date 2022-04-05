@@ -10,7 +10,7 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserLoginDto {
+public class LoginDto {
     @Email
     private String email;
 
@@ -19,7 +19,7 @@ public class UserLoginDto {
     private String password;
 
 
-    public UserLoginDto(String username, String password) {
+    public LoginDto(String username, String password) {
         this.username = username;
         this.password = password;
 

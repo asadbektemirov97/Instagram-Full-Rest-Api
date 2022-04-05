@@ -15,17 +15,17 @@ import java.util.UUID;
 @Data
 @Entity
 
-public class UserFollowers {
+public class Likes {
 
     @Id
     @GeneratedValue
     private UUID id=UUID.randomUUID();
 
     @ManyToOne
-    private User user;
+    private Posts posts;
 
     @ManyToOne
-    private User follower;
+    private User user;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
@@ -33,5 +33,4 @@ public class UserFollowers {
 
     @UpdateTimestamp
     private Timestamp updateAt;//oxirgi marta qachon tahrirlanganligi
-
 }

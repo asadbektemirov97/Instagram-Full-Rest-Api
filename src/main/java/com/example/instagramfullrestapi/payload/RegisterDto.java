@@ -4,21 +4,14 @@ import com.example.instagramfullrestapi.entity.Attachment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.UUID;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-
-public class UserUpdateDto {
+public class RegisterDto {
 
     @Email
     private String email;
@@ -29,8 +22,9 @@ public class UserUpdateDto {
 
     private String password;
 
-    private Integer attachmentId;
+    private Attachment userImage;
 
     private Date birthday;
+
 
 }

@@ -1,6 +1,5 @@
 package com.example.instagramfullrestapi.payload;
 
-import com.example.instagramfullrestapi.entity.Attachment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,10 +7,13 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import java.util.Date;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserRegisterDto {
+
+public class UpdateDto {
+
     @Email
     private String email;
 
@@ -21,9 +23,8 @@ public class UserRegisterDto {
 
     private String password;
 
-    private Attachment userImage;
+    private Integer attachmentId;
 
     private Date birthday;
-
 
 }
