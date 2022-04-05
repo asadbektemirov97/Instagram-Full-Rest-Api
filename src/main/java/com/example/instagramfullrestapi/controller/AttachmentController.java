@@ -22,6 +22,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/attachment")
+
 public class AttachmentController {
 
     @Autowired
@@ -67,7 +68,7 @@ public class AttachmentController {
             attachment.setSize(file.getSize());
             attachment.setContentType(file.getContentType());
             String[] split = originalFilename.split("\\.");
-            String name = UUID.randomUUID().toString() + "." + split[split.length - 1];
+            String name = UUID.randomUUID() + "." + split[split.length - 1];
             attachment.setName(name);
             attachmentRepository.save(attachment);
             Path path = Paths.get(uploadDirectory + "/" + name);
@@ -95,8 +96,8 @@ public class AttachmentController {
 
     }
 
-    @GetMapping("/getFileFromsytem/{id}")
-    public void getFileFromSytem(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+    @GetMapping("/getFileFromSystem/{id}")
+    public void getFileFromSystem(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
         if (optionalAttachment.isPresent()) {
             Attachment attachment = optionalAttachment.get();
