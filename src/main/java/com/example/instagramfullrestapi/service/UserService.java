@@ -85,4 +85,14 @@ public class UserService {
         return new ApiResponse("user successfully saved", true, savedUser);
     }
 
+
+    public ApiResponse searchByUsername(String username) {
+        Optional<User> byUsername = userRepository.findByUsername(username);
+        if(!byUsername.isPresent()){
+            return new ApiResponse("username not found", false);
+        }
+        userRepository.existsByUsername(username);
+        return new ApiResponse("mana senga", true);
+
+    }
 }

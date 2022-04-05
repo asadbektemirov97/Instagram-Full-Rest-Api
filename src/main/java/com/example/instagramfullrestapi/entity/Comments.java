@@ -19,7 +19,7 @@ public class Comments {
 
     @Id
     @GeneratedValue
-    private UUID id=UUID.randomUUID();
+    private UUID id = UUID.randomUUID();
 
     @ManyToOne
     private Posts posts;
@@ -33,6 +33,5 @@ public class Comments {
     @CreationTimestamp
     private Timestamp createdAt;//qachon ro'yhatdan o'tganligi
 
-    @UpdateTimestamp
-    private Timestamp updateAt;//oxirgi marta qachon tahrirlanganligi
+
 }

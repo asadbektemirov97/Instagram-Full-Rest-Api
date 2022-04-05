@@ -19,7 +19,7 @@ public class Likes {
 
     @Id
     @GeneratedValue
-    private UUID id=UUID.randomUUID();
+    private UUID id = UUID.randomUUID();
 
     @ManyToOne
     private Posts posts;

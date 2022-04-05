@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+
 public class LoginDto {
     @Email
     private String email;

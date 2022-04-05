@@ -31,6 +31,7 @@ public class Following {
     @OneToOne
     private Posts posts;
 
+
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Timestamp createdAt;//qachon ro'yhatdan o'tganligi

@@ -2,7 +2,6 @@ package com.example.instagramfullrestapi.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,6 +11,7 @@ import javax.validation.constraints.Email;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -38,6 +38,16 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    // mani:
+    @ManyToMany
+    private List<Posts> likedPosts;
+
+    @ManyToMany
+    private List<Posts> savedPosts;
+
+
+
 
     @OneToOne
     private Attachment userImage;

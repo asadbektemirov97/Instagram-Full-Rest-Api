@@ -56,8 +56,15 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public HttpEntity<?> deleteById(@RequestParam UUID id, @RequestBody UpdateDto updateDto) {
+    public HttpEntity<?> deleteById(@PathVariable UUID id, @RequestBody UpdateDto updateDto) {
         ApiResponse apiResponse = userService.updateUser(id, updateDto);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+
+    }
+
+    @GetMapping("/user/{username}")
+    public HttpEntity<?> searchByUsername(@RequestBody String username){
+        ApiResponse apiResponse = userService.searchByUsername(username);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
 
     }
