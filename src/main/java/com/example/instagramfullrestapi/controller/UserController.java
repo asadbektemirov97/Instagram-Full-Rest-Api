@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public HttpEntity<?> deleteById(@RequestParam UUID id, @RequestBody UserUpdateDto userUpdateDto){
+    public HttpEntity<?> updateById(@RequestParam UUID id, @RequestBody UserUpdateDto userUpdateDto){
         ApiResponse apiResponse = userService.updateUser(id,userUpdateDto);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200:409).body(apiResponse);
 

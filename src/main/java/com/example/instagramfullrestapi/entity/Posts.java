@@ -25,8 +25,8 @@ public class Posts {
     @ManyToOne
     private User user;
 
-    @OneToMany
-    private Set<Attachment> attachment;
+    @ManyToOne
+    private Attachment attachment;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp

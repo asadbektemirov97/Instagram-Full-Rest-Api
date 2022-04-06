@@ -19,14 +19,12 @@ public class Comments {
     private UUID id = UUID.randomUUID();
 
     @ManyToOne
-    @Column(nullable = false)
     private Posts posts;
 
     @ManyToOne
-    @Column(nullable = false)
-
     private User user;
 
+    @Column(nullable = false)
     private String comment;
 
 }

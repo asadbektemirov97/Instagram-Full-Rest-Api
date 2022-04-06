@@ -2,6 +2,7 @@ package com.example.instagramfullrestapi.controller;
 
 import com.example.instagramfullrestapi.entity.Attachment;
 import com.example.instagramfullrestapi.entity.AttachmentContent;
+import com.example.instagramfullrestapi.payload.ApiResponse;
 import com.example.instagramfullrestapi.repository.AttachmentContentRepository;
 import com.example.instagramfullrestapi.repository.AttachmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,10 @@ public class AttachmentController {
     @Autowired
     AttachmentContentRepository attachmentContentRepository;
 
-    private  static final  String uploadDirectory="yuklanganlar";
+    private static final String uploadDirectory = "yuklanganlar";
 
     @PostMapping("/uploadDb")
-    public String uploadFile(MultipartHttpServletRequest request) throws IOException {
+    public ApiResponse uploadFile(MultipartHttpServletRequest request) throws IOException {
         Iterator<String> fileNames = request.getFileNames();
         MultipartFile file = request.getFile(fileNames.next());
         if (file != null) {
@@ -50,45 +51,44 @@ public class AttachmentController {
             AttachmentContent attachmentContent = new AttachmentContent();
             attachmentContent.setBytes(file.getBytes());
             attachmentContent.setAttachment(savedAttachment);
-            attachmentContentRepository.save(attachmentContent);
-            return "Fayl saqlandi Id";
+            AttachmentContent saveAttachment = attachmentContentRepository.save(attachmentContent);
+            return new ApiResponse("Fayl saqlandi ", true, saveAttachment);
         }
-        return "Xatolik";
+        return new ApiResponse("Fayl saqlanmadi ", false);
     }
 
     @PostMapping("/uploadSystem")
-    public String uploadFileToFileSystem(MultipartHttpServletRequest request) throws IOException {
+    public ApiResponse uploadFileToFileSystem(MultipartHttpServletRequest request) throws IOException {
         Iterator<String> fileNames = request.getFileNames();
         MultipartFile file = request.getFile(fileNames.next());
-        if (file!=null){
+        if (file != null) {
             String originalFilename = file.getOriginalFilename();
             Attachment attachment = new Attachment();
             attachment.setFileOriginalName(originalFilename);
             attachment.setSize(file.getSize());
             attachment.setContentType(file.getContentType());
             String[] split = originalFilename.split("\\.");
-            String name = UUID.randomUUID().toString()+"."+split[split.length-1];
+            String name = UUID.randomUUID().toString() + "." + split[split.length - 1];
             attachment.setName(name);
-            attachmentRepository.save(attachment);
-            Path path = Paths.get(uploadDirectory+"/"+name );
-            Files.copy(file.getInputStream(),path);
-            return "Fayl saqlandi. ID si: "+attachment.getId();
+            Attachment save = attachmentRepository.save(attachment);
+            Path path = Paths.get(uploadDirectory + "/" + name);
+            Files.copy(file.getInputStream(), path);
+            return new ApiResponse("Fayl saqlandi.", true, save);
         }
-return "Saqlanmadi";
+        return new ApiResponse("saqlanmadi", false);
     }
 
     @GetMapping("/getFile/{id}")
     public void getFile(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
-        if (optionalAttachment.isPresent()){
+        if (optionalAttachment.isPresent()) {
             Attachment attachment = optionalAttachment.get();
             Optional<AttachmentContent> contentOptional = attachmentContentRepository.findByAttachmentId(id);
-            if (contentOptional.isPresent()){
+            if (contentOptional.isPresent()) {
                 AttachmentContent attachmentContent = contentOptional.get();
-                response.setHeader("Content-Disposition","attachment; filename=\""+attachment.getFileOriginalName()+"\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + attachment.getFileOriginalName() + "\"");
                 response.setContentType(attachment.getContentType());
-
-                FileCopyUtils.copy(attachmentContent.getBytes(),response.getOutputStream());
+                FileCopyUtils.copy(attachmentContent.getBytes(), response.getOutputStream());
             }
 
         }
@@ -96,15 +96,14 @@ return "Saqlanmadi";
     }
 
     @GetMapping("/getFileFromsytem/{id}")
-    public void getFileFromSytem(@PathVariable Integer id,HttpServletResponse response) throws IOException {
+    public void getFileFromSytem(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
-        if (optionalAttachment.isPresent()){
+        if (optionalAttachment.isPresent()) {
             Attachment attachment = optionalAttachment.get();
-            response.setHeader("Content-Disposition","attachment; filename=\""+attachment.getFileOriginalName()+"\"");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + attachment.getFileOriginalName() + "\"");
             response.setContentType(attachment.getContentType());
-            FileInputStream fileInputStream=new FileInputStream(uploadDirectory+"/"+attachment.getName());
-                    FileCopyUtils.copy(fileInputStream,response.getOutputStream());
-
+            FileInputStream fileInputStream = new FileInputStream(uploadDirectory + "/" + attachment.getName());
+            FileCopyUtils.copy(fileInputStream, response.getOutputStream());
         }
     }
 }
