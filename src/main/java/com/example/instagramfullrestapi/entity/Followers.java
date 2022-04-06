@@ -15,22 +15,23 @@ import java.util.UUID;
 @Data
 @Entity
 
-public class UserFeeds {
+public class Followers {
 
     @Id
     @GeneratedValue
     private UUID id=UUID.randomUUID();
 
-    @OneToOne
+    @ManyToOne
     private User user;
 
-    @OneToOne
-    private Posts posts;
+    @ManyToOne
+    private User follower;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    private Timestamp createdAt;//qachon ro'yhatdan o'tganligi
+    private Timestamp createdAt;
 
     @UpdateTimestamp
-    private Timestamp updateAt;//oxirgi marta qachon tahrirlanganligi
+    private Timestamp updateAt;
+
 }

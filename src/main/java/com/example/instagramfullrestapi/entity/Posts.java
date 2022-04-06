@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,7 +18,6 @@ import java.util.UUID;
 @Entity
 
 public class Posts {
-
     @Id
     @GeneratedValue
     private UUID id=UUID.randomUUID();
@@ -37,4 +37,7 @@ public class Posts {
 
     private Integer totalLikes;
     private Integer totalComments;
+
+
+
 }
